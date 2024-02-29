@@ -4,12 +4,22 @@
 # COMMAND ----------
 
 class SetupHelper():   
-        
+
+    def __init__(self, env):
+        Conf = Config()
+        self.landing_zone = Conf.base_dir_data + "/raw"
+        self.checkpoint_base = Conf.base_dir_checkpoint + "/checkpoints"        
+        self.catalog = env
+        self.db_name = Conf.db_name
+        self.initialized = False
+                
     def create_db(self):
         spark.catalog.clearCache()
         print(f"Creating the database {self.catalog}.{self.db_name}...", end='')
-        spark.sql(f"CREATE DATABASE IF NOT EXISTS {self.catalog}.{self.db_name}")
-        spark.sql(f"USE {self.catalog}.{self.db_name}")
+        #spark.sql(f"CREATE DATABASE IF NOT EXISTS {self.catalog}.{self.db_name}")
+        #spark.sql(f"USE {self.catalog}.{self.db_name}")
+        spark.sql(f"CREATE DATABASE IF NOT EXISTS {self.db_name}")
+        spark.sql(f"USE {self.db_name}")
         self.initialized = True
         print("Done")
 
